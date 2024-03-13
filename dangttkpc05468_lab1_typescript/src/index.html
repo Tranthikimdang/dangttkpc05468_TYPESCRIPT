@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+   
+  <meta charset="UTF-8" />
+   
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game Similar</title>
+   
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+   
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+    <div class="game-container">
+        <div class="score-area" id="info-user" style="display: none">
+            <label id="player-name-area">Tên người chơi:</label>
+            <p>Điểm: <span id="score">0</span></p>
+            <div class="cards-area"></div>
+            <button type="button" id="cancel-btn" class="btn btn-warning">
+                Hủy
+              </button>
+            <button type="button" id="reset-btn" class="btn btn-danger">
+                Reset
+              </button>
+          </div>
+        <div id="player-form">
+            <label for="player-name">Nhập tên người chơi:</label>
+            <input type="text" id="player-name" name="player-name" required>
+            <button id="submit" class="btn btn-primary">Bắt đầu</button>
+            <div id="error-message"></div> <!-- Thêm div để hiển thị thông báo lỗi -->
+          </div>
+      </div>
+   
+  <script>
+    function validateForm() {
+      var playerNameInput = document.querySelector("#player-name");
+      var errorMessageElement = document.querySelector("#error-message");
+
+      // Reset thông báo lỗi trước mỗi lần kiểm tra
+      errorMessageElement.textContent = "";
+
+      // Lấy giá trị của tên người chơi
+      var playerName = playerNameInput.value;
+
+      if (!playerName || playerName.trim() === "") {
+        displayError("Tên không được trống!");
+        return false;
+      }
+
+      // Kiểm tra tên người chơi có ít nhất 2 ký tự
+      if (playerName.length < 2) {
+        displayError("Tên không được dùng 1 ký tự!");
+        return false;
+      }
+
+      // Kiểm tra tên người chơi không chứa ký tự đặc biệt
+      if (!/^[a-zA-Z0-9 ]+$/.test(playerName)) {
+        displayError("Tên không chứa ký tự đặc biệt!");
+        return false;
+      }
+
+      // Ẩn form và hiển thị game
+      if (document.getElementById("player-form")) {
+        document.getElementById("player-form").style.display = "none";
+      }
+      if (document.getElementById("info-user")) {
+        document.getElementById("info-user").style.display = "block";
+      }
+      if (document.getElementById("player-name-area")) {
+        document.getElementById("player-name-area").textContent =
+          "Tên người chơi: " + playerName;
+      }
+
+      // Bắt đầu game
+      startGame();
+
+      // Trả về false để ngăn form submit
+      return false;
+    }
+
+    // Thêm sự kiện nghe cho nút submit
+    document.getElementById("submit").addEventListener("click", function (event) {
+      event.preventDefault(); // Ngăn chặn việc gửi biểu mẫu mặc định
+      validateForm();
+    });
+
+    function displayError(message) {
+      // Hiển thị thông báo lỗi trên màn hình
+      var errorMessageElement = document.querySelector("#error-message");
+      if (errorMessageElement) {
+        errorMessageElement.textContent = message;
+        errorMessageElement.style.color = "red";
+      }
+    }
+  </script>
+   
+  <script src="../dist/main.js"></script>
+</body>
+
+</html>
